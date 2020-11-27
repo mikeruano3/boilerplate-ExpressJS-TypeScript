@@ -12,7 +12,9 @@ async function verifyToken(req:any, res:any, next:any) {
     const authHeader = req.headers.authorization
     const token = authHeader && authHeader.split(' ')[1]
     if (token == null) return res.status(401).json({status:false, message: 'No token', data: 'Unauthorized'}) // if there isn't any token
-    jwt.verify(token, process.env.TOKEN_SECRET, (err:any, data:any) => {
+    jwt.verify(token, process.env.TOKEN_SECRET, {
+        ignoreExpiration: true // handled by OAuth2 server implementation
+    }, (err:any, data:any) => {
       if (err) return res.status(401).json({status:false, message: err.message, data: err})
       req.tokenData = data
       // ! NO BORRAR LO DE ABAJO

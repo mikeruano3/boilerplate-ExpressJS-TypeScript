@@ -37,7 +37,7 @@ const options: cors.CorsOptions = {
 
 // use cors middleware
 router.use(cors(options))
-app.use(jwt.jwt())
+// app.use(jwt.jwt())
 
 // add your routes
 app.use(express.json())

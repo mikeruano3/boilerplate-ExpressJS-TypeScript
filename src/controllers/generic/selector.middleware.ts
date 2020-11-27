@@ -1,5 +1,11 @@
+import categorySchema from "../../schemas/category.schema";
+import consignmentSchema from "../../schemas/consignment.schema";
+import productSchema from "../../schemas/product.schema";
 import roleSchema from "../../schemas/role.schema";
+import salepriceSchema from "../../schemas/sale-price.schema";
+import saleSchema from "../../schemas/sale.schema";
 import userSchema from "../../schemas/user.schema";
+import CS from "../../constants/schema.constants";
 
 async function findSchema(req:any, res:any, next:any) {
     try{
@@ -20,10 +26,20 @@ async function findSchema(req:any, res:any, next:any) {
 
 async function selectSchema(schemaId:string) {
     switch (schemaId) {
-        case 'users':
-            return userSchema
-        case 'roles':
+        case CS.CATEGORIES:
+            return categorySchema
+        case CS.CONSIGNMENTS:
+            return consignmentSchema
+        case CS.PRODUCTS:
+            return productSchema
+        case CS.ROLES:
             return roleSchema
+        case CS.SALEPRICES:
+            return salepriceSchema
+        case CS.SALES:
+            return saleSchema
+        case CS.USERS:
+            return userSchema
         default:
           return null
     }

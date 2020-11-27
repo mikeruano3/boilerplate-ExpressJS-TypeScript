@@ -11,11 +11,11 @@ dotenv.config()
  *********************************/
 async function signin (req:any, res:any){
     try {
-        const userData = await userSchema.findOne(
+        const userData:any = await userSchema.findOne(
             { email: req.body.email, password: md5(req.body.password) },
-            { password: 0 }).populate('role')
+            { password: 0 }).populate('roles')
         if (userData) {
-            const token = await authService.generateToken({ idUser: userData._id });
+            const token = await authService.generateToken({ idUser: userData._id, idRole: userData.role });
             return res.status(200).json({
                 status: true, message: "OK", data: { accessToken: token, userData }
             });
@@ -41,7 +41,7 @@ async function registerAppUser (req:any, res:any) {
             return res.status(200).json({ status: false,
                 message: "Este email ya se encuentra registrado!", data: req.body.email })
         }
-        const roleData = await roleSchema.findOne({ roleType: 2 })
+        const roleData = await roleSchema.findOne({ roleType: req.body.roleType || process.env.USER_ROLE_NUMBER })
         req.body.role = roleData
 
         if(process.env.VALIDATE_EMAIL === "1"){
